@@ -1,0 +1,6 @@
+# Desenvolvimento local: `docker compose up scraper` e `cd web && npm run dev`
+services:
+  scraper:
+    build: ./scraper
+    env_file: ./scraper/.env
+    ports: ["8000:8000"]

@@ -1,0 +1,2 @@
+# Opcional: fallback local com navegador headless para portais NÃO protegidos
+playwright==1.49.0

@@ -1,0 +1,12 @@
+FROM python:3.12-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+WORKDIR /srv
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+# Fallback local com navegador (opcional): docker build --build-arg WITH_PLAYWRIGHT=1 .
+ARG WITH_PLAYWRIGHT=0
+COPY requirements-playwright.txt .
+RUN if [ "$WITH_PLAYWRIGHT" = "1" ]; then pip install --no-cache-dir -r requirements-playwright.txt && playwright install --with-deps chromium; fi
+COPY app ./app
+EXPOSE 8000
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000} --workers ${WEB_CONCURRENCY:-2}"]

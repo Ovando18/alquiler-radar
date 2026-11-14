@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;        /* #F8FAFC */
+    --foreground: 222 47% 11%;        /* #0F172A */
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 357 78% 37%;           /* #AA151B */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 19% 35%;  /* #475569 */
+    --accent: 48 96% 89%;             /* #FEF3C7 */
+    --accent-foreground: 26 90% 37%;
+    --destructive: 0 72% 42%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 32% 91%;            /* #E2E8F0 */
+    --input: 214 32% 91%;
+    --ring: 357 78% 37%;
+    --radius: 0.625rem;
+  }
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground antialiased; font-feature-settings: "tnum" 1, "cv11" 1; }
+  h1, h2, h3 { @apply text-ink tracking-tight; }
+}
+
+@layer components {
+  .eyebrow { @apply text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-soft; }
+  /* fio fino vermelho-ocre-vermelho: a única citação literal da bandeira */
+  .rojigualda { background: linear-gradient(90deg, #AA151B 0 25%, #D97706 25% 75%, #AA151B 75% 100%); }
+}
