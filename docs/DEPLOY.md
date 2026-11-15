@@ -12,7 +12,8 @@ Ordem recomendada: **Supabase → Scraper → Web → Hotmart → Primeiro admin
 4. **Authentication → URL Configuration**
    - Site URL: `https://app.seudominio.com`
    - Redirect URLs: `https://app.seudominio.com/auth/callback` e `http://localhost:3000/auth/callback`
-5. **Authentication → Email Templates → Magic Link**: inclua o código para o login por OTP funcionar:
+5. **(Venda) Código de 6 dígitos** — o Supabase só permite editar os templates depois de configurar SMTP próprio (item 7).
+   Em **Authentication → Emails → "Magic link or OTP"** e **"Confirm sign up"**, inclua o código e depois defina `NEXT_PUBLIC_AUTH_OTP_CODE=true` no Netlify (com novo deploy):
    ```html
    <h2>Seu acesso ao AlquilerRadar</h2>
    <p>Código: <strong style="font-size:22px;letter-spacing:4px">{{ .Token }}</strong></p>

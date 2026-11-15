@@ -7,7 +7,8 @@ O Netlify não executa o serviço Python (FastAPI); por isso ele vai no Render.
 1. Crie um projeto em supabase.com (região EU).
 2. SQL Editor → rode `supabase/migrations/001_schema.sql`.
 3. Rode o SQL do **primeiro admin** (docs/DEPLOY.md §5) com o seu e-mail.
-4. Authentication → Email Templates → *Magic Link* e *Confirm signup*: inclua `{{ .Token }}` (modelo em docs/DEPLOY.md §1).
+4. Templates de e-mail: **não precisa mexer para testar**. O login usa o link do template padrão (o Supabase só libera a edição após configurar SMTP próprio).
+   Com o SMTP padrão, os e-mails só chegam para membros da sua conta Supabase — suficiente para testar como admin.
 5. Anote: Project URL, anon key, service_role key, connection string do pooler (porta 6543).
 
 ## 2. Scraper no Render (≈10 min)
@@ -34,12 +35,13 @@ O Netlify não executa o serviço Python (FastAPI); por isso ele vai no Render.
 | `NEXT_PUBLIC_HOTMART_CHECKOUT_URL` | link do checkout (ou `#`) |
 | `NEXT_PUBLIC_SUPPORT_WHATSAPP` | seu número |
 | `SINGLE_SESSION_ENFORCED` | `true` |
+| `NEXT_PUBLIC_AUTH_OTP_CODE` | `false` (login por link; mude para `true` só depois do SMTP próprio + `{{ .Token }}` nos templates) |
 
 3. Deploy. Toda alteração de variável exige **novo deploy** (Deploys → Trigger deploy).
 4. No Supabase → Authentication → URL Configuration: Site URL = URL do Netlify; Redirect URL = `https://SEU-SITE.netlify.app/auth/callback`.
 
 ## 4. Roteiro de testes
-- [ ] Login com o e-mail admin → código de 6 dígitos → `/buscar`.
+- [ ] Login com o e-mail admin → clicar em *Sign in* no e-mail (mesmo navegador) → `/buscar`.
 - [ ] `/admin` → **Liberar acesso** para um segundo e-mail; entre com ele em outra janela anônima.
 - [ ] Webhook: `HOTTOK=teste123 ./scripts/test-webhook.sh https://SEU-SITE.netlify.app PURCHASE_APPROVED outro@email.com` → aparece em `/admin → Webhooks`.
 - [ ] Mesmo comando com `PURCHASE_REFUNDED` → o usuário cai no paywall.
