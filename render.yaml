@@ -1,0 +1,29 @@
+# Render Blueprint — microserviço de scraping (FastAPI). Render > New > Blueprint > selecione este repositório.
+services:
+  - type: web
+    name: alquilerradar-scraper
+    runtime: docker
+    rootDir: scraper
+    dockerfilePath: ./Dockerfile
+    region: frankfurt
+    plan: starter
+    healthCheckPath: /health
+    envVars:
+      - key: SCRAPER_INTERNAL_TOKEN
+        generateValue: true
+      - key: SCRAPING_PROVIDER
+        value: zenrows
+      - key: ZENROWS_API_KEY
+        sync: false
+      - key: SCRAPERAPI_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: CACHE_TTL_HOURS
+        value: "6"
+      - key: PORTAL_TIMEOUT_S
+        value: "24"
+      - key: REQUEST_TIMEOUT_S
+        value: "22"
+      - key: RETRIES_PER_PROVIDER
+        value: "0"

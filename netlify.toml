@@ -1,0 +1,10 @@
+# Netlify — somente o frontend Next.js (pasta web/).
+# O microserviço Python NÃO roda no Netlify: publique-o no Render (render.yaml) ou Fly.io.
+[build]
+  base = "web"
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+  NEXT_TELEMETRY_DISABLED = "1"

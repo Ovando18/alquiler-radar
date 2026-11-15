@@ -4,7 +4,10 @@ import { serverEnv } from "@/lib/env";
 import { filtersSchema } from "@/lib/filters-schema";
 
 export const runtime = "nodejs";
-export const maxDuration = 120; // Vercel: busca com JS rendering pode levar ~60-90s
+export const maxDuration = 120; // Vercel; no Netlify o limite da função é menor — ver SEARCH_TIMEOUT_MS
+
+// Se a função for encerrada antes, o scraper termina e grava o cache: repetir a busca responde na hora.
+const SEARCH_TIMEOUT_MS = Number(process.env.SEARCH_TIMEOUT_MS ?? 115_000);
 
 /** Proxy autenticado para o microserviço Python. O token interno nunca vai ao browser. */
 export async function POST(req: NextRequest) {
@@ -21,7 +24,7 @@ export async function POST(req: NextRequest) {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Internal-Token": serverEnv.scraperToken() },
       body: JSON.stringify(parsed.data),
-      signal: AbortSignal.timeout(115_000),
+      signal: AbortSignal.timeout(SEARCH_TIMEOUT_MS),
       cache: "no-store",
     });
     const body = await r.json();
